@@ -1,71 +1,84 @@
-// src/types/esp.types.ts
+// Relay Control Types --------------------------------------------------------
+export type RelayKey = 'A' | 'B' | 'C' | 'D';
+export type RelayCommand = RelayKey | Lowercase<RelayKey>;
 
+export interface RelayState {
+  A: boolean;
+  B: boolean;
+  C: boolean;
+  D: boolean;
+}
+
+export interface SerialCommand {
+  command: RelayCommand;
+  relay?: RelayKey;
+  state?: 'ON' | 'OFF';
+}
+
+export interface SerialResponse {
+  success: boolean;
+  message: string;
+  relayStates?: RelayState;
+}
+
+export type RelayNumber = RelayKey;
+
+// Sensor Data Types
+export interface VoltageData {
+  inverter: number;
+  lvs: number;
+  contacter: number;
+}
+
+export interface TemperatureData {
+  motor: number;
+  object: number;
+  ambient: number;
+  battery: number;
+}
+
+export interface AccelerationData {
+  x: number;
+  y: number;
+  z: number;
+  magnitude: number;
+}
+
+export interface SpeedData {
+  value: number;
+  unit: string;
+}
+
+export interface LidarData {
+  distance: number;
+  quality: number;
+}
+
+// Complete ESP Data Structure
 export interface ESPData {
-    device?: number;
-    status?: string;
-    battery?: number;
-    mlxTemperature?: number;
-    dsTemperature?: number;
-    objectTemp?: number;
-    ambientTemp?: number;
-    accel?: number[];
-    VB1?: number; // LVS Voltage
-    VB2?: number; // Inverter Voltage
-    VB3?: number; // Contacter Voltage
-    orientation?: number[];
-    timestamp?: string;
-  }
+  timestamp?: string;
   
-  export interface VoltageData {
-    inverter: number;
-    lvs: number;
-    contacter: number;
-  }
+  // Voltage readings
+  VB1?: number;  // LVS Voltage
+  VB2?: number;  // Inverter Voltage
+  VB3?: number;  // Contacter Voltage
   
-  export interface TemperatureData {
-    motor: number;
-    object: number;
-    ambient: number;
-    battery: number;
-  }
+  // Temperature readings
+  dsTemperature?: number;   // Motor temperature
+  objectTemp?: number;      // Object temperature
+  ambientTemp?: number;     // Ambient temperature
+  mlxTemperature?: number;  // Battery temperature
   
-  export interface AccelerationData {
-    x: number;
-    y: number;
-    z: number;
-    magnitude: number;
-  }
+  // Acceleration data [x, y, z]
+  accel?: number[];
   
-  export interface SpeedData {
-    value: number;
-    unit: string;
-  }
+  // Orientation data [roll, pitch, yaw]
+  orientation?: number[];
   
-  export interface ESPStatus {
-    isConnected: boolean;
-    lastSeen: Date;
-    deviceId: number;
-    batteryLevel?: number;
-  }
+  // Lidar data
+  lidarDistance?: number;
+  lidarQuality?: number;
   
-  export interface RelayState {
-    A: boolean; // Pod Start
-    B: boolean; // Brake Release
-    C: boolean; // Launchpad
-    D: boolean; // Inverter
-  }
-  
-  export interface WebSocketState {
-    isConnected: boolean;
-    isConnecting: boolean;
-    error: string | null;
-    lastMessage: Date | null;
-  }
-  
-  export type RelayCommand = 'A' | 'a' | 'B' | 'b' | 'C' | 'c' | 'D' | 'd';
-  
-  export interface ButtonState {
-    active: boolean;
-    loading: boolean;
-    disabled: boolean;
-  }
+  // Relay states
+  relayStates?: RelayState;
+}
