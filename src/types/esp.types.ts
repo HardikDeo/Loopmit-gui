@@ -53,6 +53,12 @@ export interface LidarData {
   distance: number;
   quality: number;
 }
+export interface CalibrationData {
+  gyro: number;
+  sys: number;
+  magneto: number;
+}
+
 
 // Complete ESP Data Structure
 export interface ESPData {
@@ -71,6 +77,8 @@ export interface ESPData {
   
   // Acceleration data [x, y, z]
   accel?: number[];
+  //Gap height 
+  gap_height?: number
   
   // Orientation data [roll, pitch, yaw]
   orientation?: number[];
@@ -78,6 +86,10 @@ export interface ESPData {
   // Lidar data
   lidarDistance?: number;
   lidarQuality?: number;
+  // Calibration data from BNO055 [gyro, sys, magneto]
+  calibration?: number[];
+  // Voltage from 25V voltage sensor
+  voltage?: number;  // in V
   
   // Relay states
   relayStates?: RelayState;

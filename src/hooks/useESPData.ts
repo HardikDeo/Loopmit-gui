@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // src/hooks/useESPData.ts
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ESPData, VoltageData, TemperatureData, AccelerationData, SpeedData } from '../types/esp.types';
 
 const CRITICAL_TEMP = 120;
+const CONNECTION_TIMEOUT = 5000;
 
 interface UseESPDataReturn {
   voltageData: VoltageData;
